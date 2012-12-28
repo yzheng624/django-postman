@@ -6,7 +6,7 @@ this one in your root URLconf to set up the default URLs::
 
 Otherwise you may customize the behavior by passing extra parameters.
 
-Recipients Max 
+Recipients Max
 --------------
 Views supporting the parameter are: ``write``, ``reply``.
 Example::
@@ -86,11 +86,13 @@ Refer to documentation.
     ..., {'formatters': (format_subject,format_body)}, name='postman_view'),
 
 """
+from __future__ import unicode_literals
+
 try:
-    from django.conf.urls import patterns, include, url # django 1.4
+    from django.conf.urls import patterns, include, url  # django 1.4
 except ImportError:
-    from django.conf.urls.defaults import patterns, include, url # django 1.3
-from django.views.generic.simple import redirect_to
+    from django.conf.urls.defaults import patterns, include, url  # django 1.3
+from django.views.generic.base import RedirectView
 
 OPTION_MESSAGES = 'm'
 OPTIONS = OPTION_MESSAGES
@@ -107,5 +109,5 @@ urlpatterns = patterns('postman.views',
     url(r'^archive/$', 'archive', name='postman_archive'),
     url(r'^delete/$', 'delete', name='postman_delete'),
     url(r'^undelete/$', 'undelete', name='postman_undelete'),
-    (r'^$', redirect_to, {'url': 'inbox/'}),
+    (r'^$', RedirectView.as_view(url='inbox/')),
 )
